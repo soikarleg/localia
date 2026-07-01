@@ -1,0 +1,10 @@
+# Variables d'environnement locales (contiennent des secrets)
+docker/.env
+
+# Sauvegardes binaires volumineuses
+openwebui/backup/*.db
+openwebui/backup/*.sqlite
+
+# OS
+.DS_Store
+Thumbs.db
