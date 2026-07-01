@@ -44,12 +44,13 @@ echo "[1/4] Sauvegarde préalable..."
 echo "[2/4] Mise à jour des tags dans .env..."
 
 if [ -n "${NEW_OWUI_TAG}" ]; then
-    sed -i "s/^OPENWEBUI_IMAGE_TAG=.*/OPENWEBUI_IMAGE_TAG=${NEW_OWUI_TAG}/" "${ENV_FILE}"
+    # Portable sed -i : fonctionne sur Linux et macOS
+    sed -i.bak "s/^OPENWEBUI_IMAGE_TAG=.*/OPENWEBUI_IMAGE_TAG=${NEW_OWUI_TAG}/" "${ENV_FILE}" && rm -f "${ENV_FILE}.bak"
     echo "      OPENWEBUI_IMAGE_TAG → ${NEW_OWUI_TAG}"
 fi
 
 if [ -n "${NEW_OLLAMA_TAG}" ]; then
-    sed -i "s/^OLLAMA_IMAGE_TAG=.*/OLLAMA_IMAGE_TAG=${NEW_OLLAMA_TAG}/" "${ENV_FILE}"
+    sed -i.bak "s/^OLLAMA_IMAGE_TAG=.*/OLLAMA_IMAGE_TAG=${NEW_OLLAMA_TAG}/" "${ENV_FILE}" && rm -f "${ENV_FILE}.bak"
     echo "      OLLAMA_IMAGE_TAG → ${NEW_OLLAMA_TAG}"
 fi
 
