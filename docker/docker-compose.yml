@@ -18,7 +18,7 @@ services:
     #           capabilities: [gpu]
 
   openwebui:
-    image: ghcr.io/open-webui/open-webui:${OPENWEBUI_IMAGE_TAG:-0.10.6}
+    image: ghcr.io/open-webui/open-webui:v${OPENWEBUI_IMAGE_TAG:-0.10.0}
     container_name: openwebui
     restart: unless-stopped
     depends_on:

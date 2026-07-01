@@ -1,0 +1,39 @@
+id: sortie_json_finale
+objectif: Produire une réponse finale unique, exploitable par l'API devis.
+inputs:
+  - donnees_normalisees
+  - ambiguite
+  - complexite
+  - estimation_temps
+  - coherence
+regles:
+  - "Retourner uniquement un JSON valide"
+  - "Aucun texte hors JSON"
+  - "Si statut=reject, temps_total_h peut être null"
+  - "Inclure confiance selon complétude + cohérence"
+output_json:
+  tache:
+    essence: "string|null"
+    type_taille: "string|null"
+    longueur_ml: "number|null"
+    hauteur_m: "number|null"
+    nb_faces: "number|null"
+    evacuation: "oui|non|null"
+    acces: "tres_facile|facile|moyen|difficile|null"
+    adventices: "string|null"
+  estimation:
+    temps_total_h: "number|null"
+    temps_preparation_h: "number|null"
+    temps_execution_h: "number|null"
+    temps_finition_h: "number|null"
+    rendement_reference: "number|null"
+    rendement_ajuste: "number|null"
+    coef_global: "number|null"
+  controle:
+    statut: "ok|warning|reject"
+    incoherences_majeures: ["string"]
+    incoherences_mineures: ["string"]
+  hypotheses: ["string"]
+  incertitudes: ["string"]
+  questions_bloquantes: ["string"]
+  confiance: "faible|moyenne|elevee"

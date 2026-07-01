@@ -1,0 +1,16 @@
+id: controle_coherence
+objectif: Vérifier la cohérence métier avant sortie finale.
+inputs:
+  - donnees_normalisees
+  - estimation_temps
+regles:
+  - "Détecter contradictions logiques (ex: evacuation=non et temps evacuation>0)"
+  - "Détecter valeurs hors plage (hauteur<=0, longueur<=0, nb_faces not in 1..4)"
+  - "Vérifier compatibilité type_taille vs hauteur_rendu"
+  - "Si incohérence majeure: statut=reject"
+  - "Sinon statut=ok ou warning"
+output_json:
+  statut: "ok|warning|reject"
+  incoherences_majeures: ["string"]
+  incoherences_mineures: ["string"]
+  corrections_proposees: ["string"]

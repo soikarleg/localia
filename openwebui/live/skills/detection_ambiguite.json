@@ -1,0 +1,29 @@
+{
+  "id": "detection_ambiguite",
+  "objectif": "Identifier les informations manquantes ou ambigues bloquant une estimation fiable.",
+  "inputs": [
+    "donnees_normalisees"
+  ],
+  "regles": [
+    "Ne rien inventer",
+    "Lister les champs manquants critiques",
+    "Generer des questions courtes et actionnables",
+    "Distinguer bloquant vs non bloquant",
+    "Si assez d'infos pour estimer, garder questions_bloquantes vide"
+  ],
+  "output_json": {
+    "manquants_critiques": [
+      "string"
+    ],
+    "manquants_secondaires": [
+      "string"
+    ],
+    "questions_bloquantes": [
+      "string"
+    ],
+    "questions_recommandees": [
+      "string"
+    ],
+    "niveau_ambiguite": "faible|moyen|eleve"
+  }
+}

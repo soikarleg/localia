@@ -1,0 +1,35 @@
+{
+  "id": "desherbage_extraction",
+  "objectif": "Extraire et normaliser les informations utiles a l'estimation de desherbage depuis un texte libre.",
+  "inputs": [
+    "texte_demande"
+  ],
+  "regles": [
+    "Ne rien inventer",
+    "Normaliser les unites en m2 et h",
+    "m2 = metre carre ; h = heure",
+    "Si donnee absente: null",
+    "Repondre uniquement en JSON valide",
+    "Apres extraction, transmettre les donnees vers normalisation_unites, detection_ambiguite, estimation_complexite, moteur_rendement, controle_coherence et sortie_json_finale"
+  ],
+  "output_json": {
+    "type_tache": "desherbage",
+    "surface_m2": "number|null",
+    "zone": "massif|allee|terrasse|bordure|mixte|null",
+    "densite_adventices": "faible|moyenne|forte|null",
+    "methode": "manuel|mecanique|mixte|null",
+    "presence_gravillons": "oui|non|null",
+    "evacuation": "oui|non|null",
+    "acces": "tres_facile|facile|moyen|difficile|null",
+    "frequence_entretien": "hebdo|bi_mensuel|mensuel|ponctuel|null",
+    "contraintes": [
+      "string"
+    ],
+    "questions_bloquantes": [
+      "string"
+    ],
+    "questions_recommandees": [
+      "string"
+    ]
+  }
+}

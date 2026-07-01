@@ -5,27 +5,19 @@
 services:
 
   ollama:
-    # Exemple : activer le GPU NVIDIA localement
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - driver: nvidia
-    #           count: all
-    #           capabilities: [gpu]
+    gpus: all
 
     # Exemple : exposer l'API Ollama sur le réseau local
     # ports:
     #   - "${OLLAMA_PORT:-11434}:11434"
 
-    # Placeholder requis pour conserver un YAML valide sans surcharge active.
-    # Supprimer cette ligne et décommenter les blocs ci-dessus selon vos besoins.
-    entrypoint: []
+    # Aucune surcharge active par defaut.
+    # Decommentez les blocs ci-dessus selon vos besoins.
 
   openwebui:
-    # Exemple : monter un répertoire local pour développement
-    # volumes:
-    #   - ../openwebui/tools:/app/backend/data/tools
-
-    # Placeholder requis pour conserver un YAML valide sans surcharge active.
-    entrypoint: []
+    # Bind mounts locaux: toute modification dans le repo est visible dans le conteneur.
+    volumes:
+      - ../openwebui/knowledge:/app/backend/data/knowledge
+      - ../openwebui/live/tools:/app/backend/data/tools
+      - ../openwebui/pipelines:/app/backend/data/pipelines
+      - ../openwebui/live/skills:/app/backend/data/skills

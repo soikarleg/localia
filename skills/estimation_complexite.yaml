@@ -1,0 +1,20 @@
+id: estimation_complexite
+objectif: Produire un coefficient global de complexité chantier.
+inputs:
+  - donnees_normalisees
+  - contexte_chantier
+regles:
+  - "Base coefficient = 1.00"
+  - "Appliquer facteurs: hauteur, nb_faces, acces, densite, adventices, evacuation"
+  - "Conserver détail des sous-coefficients"
+  - "Bornes coef_global: min 0.70, max 2.50"
+  - "Si donnée absente, utiliser facteur neutre et noter hypothèse"
+output_json:
+  coef_base: "number"
+  coef_hauteur: "number"
+  coef_nb_faces: "number"
+  coef_acces: "number"
+  coef_adventices: "number"
+  coef_evacuation: "number"
+  coef_global: "number"
+  hypotheses_complexite: ["string"]

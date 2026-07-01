@@ -1,0 +1,35 @@
+{
+  "id": "taille_rosiers_extraction",
+  "objectif": "Extraire et normaliser les informations utiles a l'estimation de taille de rosiers depuis un texte libre.",
+  "inputs": [
+    "texte_demande"
+  ],
+  "regles": [
+    "Ne rien inventer",
+    "Normaliser les unites en nombre, m2 et h",
+    "nombre = nb rosiers ; m2 = metre carre ; h = heure",
+    "Si donnee absente: null",
+    "Repondre uniquement en JSON valide",
+    "Apres extraction, transmettre les donnees vers normalisation_unites, detection_ambiguite, estimation_complexite, moteur_rendement, controle_coherence et sortie_json_finale"
+  ],
+  "output_json": {
+    "type_tache": "taille_rosiers",
+    "nb_rosiers": "number|null",
+    "surface_m2": "number|null",
+    "type_rosier": "buisson|grimpant|couvre_sol|mixte|null",
+    "niveau_reprise": "faible|moyen|fort|null",
+    "presence_epines_denses": "oui|non|null",
+    "evacuation": "oui|non|null",
+    "acces": "tres_facile|facile|moyen|difficile|null",
+    "frequence_entretien": "hebdo|bi_mensuel|mensuel|ponctuel|null",
+    "contraintes": [
+      "string"
+    ],
+    "questions_bloquantes": [
+      "string"
+    ],
+    "questions_recommandees": [
+      "string"
+    ]
+  }
+}

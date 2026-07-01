@@ -1,0 +1,27 @@
+{
+  "id": "controle_coherence",
+  "objectif": "Verifier la coherence metier avant sortie finale.",
+  "inputs": [
+    "donnees_normalisees",
+    "estimation_temps"
+  ],
+  "regles": [
+    "Detecter contradictions logiques (ex: evacuation=non et temps evacuation>0)",
+    "Detecter valeurs hors plage (hauteur<=0, longueur<=0, nb_faces not in 1..4)",
+    "Verifier compatibilite type_taille vs hauteur_rendu",
+    "Si incoherence majeure: statut=reject",
+    "Sinon statut=ok ou warning"
+  ],
+  "output_json": {
+    "statut": "ok|warning|reject",
+    "incoherences_majeures": [
+      "string"
+    ],
+    "incoherences_mineures": [
+      "string"
+    ],
+    "corrections_proposees": [
+      "string"
+    ]
+  }
+}

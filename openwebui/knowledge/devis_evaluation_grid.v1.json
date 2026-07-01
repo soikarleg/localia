@@ -1,0 +1,89 @@
+{
+  "grid_id": "devis_evaluation_v1",
+  "version": "1.0.0",
+  "currency": "EUR",
+  "scale": {
+    "min": 0,
+    "max": 5,
+    "labels": {
+      "0": "absent",
+      "1": "insuffisant",
+      "2": "faible",
+      "3": "acceptable",
+      "4": "bon",
+      "5": "excellent"
+    }
+  },
+  "weights": {
+    "conformite_documentaire": 0.2,
+    "coherence_financiere": 0.25,
+    "qualite_technique": 0.2,
+    "gestion_risques": 0.15,
+    "conditions_commerciales": 0.1,
+    "lisibilite_et_justification": 0.1
+  },
+  "criteria": {
+    "conformite_documentaire": [
+      "numero_devis",
+      "date_devis",
+      "identification_prestataire",
+      "identification_client",
+      "description_detaillee_des_prestations",
+      "duree_validite"
+    ],
+    "coherence_financiere": [
+      "quantites_x_prix_unitaires_coherents",
+      "sous_totaux_calcules_correctement",
+      "tva_explicite_ou_exoneration_justifiee",
+      "total_ht_et_ttc_coherents",
+      "ecart_marche_raisonnable_si_reference_disponible"
+    ],
+    "qualite_technique": [
+      "perimetre_clair",
+      "livrables_identifies",
+      "hypotheses_et_exclusions",
+      "planning_ou_delai",
+      "ressources_ou_methode"
+    ],
+    "gestion_risques": [
+      "contraintes_identifiees",
+      "dependances_ou_pre_requis",
+      "gestion_imprevus",
+      "clauses_revision_ou_avenant"
+    ],
+    "conditions_commerciales": [
+      "modalites_paiement",
+      "penalites_retard_ou_escompte",
+      "conditions_annulation",
+      "mentions_service_apres_vente_ou_garantie"
+    ],
+    "lisibilite_et_justification": [
+      "structure_du_document",
+      "vocabulaire_non_ambigu",
+      "justification_des_postes_sensibles",
+      "trace_des_calculs"
+    ]
+  },
+  "risk_rules": {
+    "critical_missing": [
+      "numero_devis",
+      "identification_client",
+      "description_detaillee_des_prestations",
+      "total_ht_et_ttc_coherents"
+    ],
+    "thresholds": {
+      "green_min": 80,
+      "orange_min": 60
+    }
+  },
+  "output_contract": {
+    "required_fields": [
+      "score_global_100",
+      "niveau_risque",
+      "scores_par_axe",
+      "anomalies",
+      "questions_bloquantes",
+      "actions_recommandees"
+    ]
+  }
+}
