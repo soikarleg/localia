@@ -1,0 +1,31 @@
+# Surcharges locales — ce fichier est appliqué automatiquement par docker compose.
+# Adapter selon votre environnement (GPU, ports, bind mounts, etc.)
+# NE PAS versionner si des secrets y apparaissent.
+
+services:
+
+  ollama:
+    # Exemple : activer le GPU NVIDIA localement
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
+    # Exemple : exposer l'API Ollama sur le réseau local
+    # ports:
+    #   - "${OLLAMA_PORT:-11434}:11434"
+
+    # Placeholder requis pour conserver un YAML valide sans surcharge active.
+    # Supprimer cette ligne et décommenter les blocs ci-dessus selon vos besoins.
+    entrypoint: []
+
+  openwebui:
+    # Exemple : monter un répertoire local pour développement
+    # volumes:
+    #   - ../openwebui/tools:/app/backend/data/tools
+
+    # Placeholder requis pour conserver un YAML valide sans surcharge active.
+    entrypoint: []
