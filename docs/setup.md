@@ -50,7 +50,10 @@ localia/
 ├── scripts/
 │   ├── backup.sh                   # Sauvegarde automatisée
 │   ├── restore.sh                  # Restauration depuis backup
-│   └── upgrade.sh                  # Mise à jour contrôlée
+│   ├── upgrade.sh                  # Mise à jour contrôlée
+│   ├── setup_nvidia_docker.sh      # Setup NVIDIA toolkit/runtime/CDI
+│   ├── import_legacy_uploads.sh    # Import des uploads historiques
+│   └── check_stack.sh              # Vérification OpenWebUI/Ollama/GPU
 └── docs/
     └── setup.md                    # Ce fichier
 ```
@@ -62,6 +65,13 @@ localia/
 Le mode GPU est séparé dans `docker/docker-compose.gpu.yml` afin de ne pas bloquer un démarrage CPU sur une machine sans GPU NVIDIA.
 
 Les données persistantes d'OpenWebUI sont montées par défaut depuis `~/openwebui-data`. Les modèles Ollama viennent de `~/.ollama`, qui contient les blobs et manifests réels.
+
+Setup automatique recommandé (nécessite sudo) :
+
+```bash
+cd /home/otto/localia
+sudo ./scripts/setup_nvidia_docker.sh
+```
 
 Vérifier l'installation du NVIDIA Container Toolkit :
 
@@ -101,6 +111,22 @@ Puis relancer :
 cd /home/otto/localia/docker
 docker compose up -d
 ```
+
+Validation rapide de la stack (services + modèles + GPU hôte + GPU Docker) :
+
+```bash
+cd /home/otto/localia
+./scripts/check_stack.sh
+```
+
+Import des anciens uploads OpenWebUI depuis le volume Docker historique :
+
+```bash
+cd /home/otto/localia
+./scripts/import_legacy_uploads.sh
+```
+
+Les fichiers importés sont copiés dans `openwebui/knowledge/legacy_uploads/`.
 
 ---
 

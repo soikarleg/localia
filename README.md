@@ -29,5 +29,5 @@ Pour vérifier le support GPU local, charge [docker/docker-compose.gpu.yml](dock
 | `openwebui/knowledge/` | Exports base de connaissance |
 | `openwebui/tools/` | Exports tools/skills Python |
 | `openwebui/backup/` | Snapshots horodatés des données |
-| `scripts/` | `backup.sh`, `restore.sh`, `upgrade.sh` |
+| `scripts/` | `backup.sh`, `restore.sh`, `upgrade.sh`, `setup_nvidia_docker.sh`, `import_legacy_uploads.sh`, `check_stack.sh` |
 | `docs/` | Documentation |

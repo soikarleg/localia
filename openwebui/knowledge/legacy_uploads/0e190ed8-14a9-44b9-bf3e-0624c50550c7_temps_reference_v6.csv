@@ -1,0 +1,30 @@
+tache,unite,ratio_unite,base,condition,commentaire,saison,frequence
+tonte_mulch,m2,0.0045,heure,terrain_standard,4.5h / 1000m² (herbe courte, plat, mulch),03-11,15-25
+tonte_normale,m2,0.0050,heure,terrain_standard,5h / 1000m² (détourage inclus),03-11,12-20
+tonte_morcele,m2,0.0060,heure,terrain_morcele,6h / 1000m² (obstacles),03-11,12-20
+tonte_pente,m2,0.0075,heure,terrain_pente,7.5h / 1000m² (effort + sécurité),03-10,10-18
+debroussaillage_legere,m2,0.0150,heure,enherbement_faible,15h / 1000m²,02-11,2-4
+debroussaillage_moyen,m2,0.0250,heure,enherbement_moyen,25h / 1000m²,02-10,2-3
+debroussaillage_lourd,m2,0.0400,heure,enherbement_fort,40h / 1000m² (friche),01-04;10-12,1-2
+taille_haie_standard,ml,0.2000,heure,haie_1_2m,6h / 30ml,02-04;09-11,2-3
+taille_haie_haute,ml,0.3000,heure,haie_2_3m,9h / 30ml,02-04;09-11,2
+taille_haie_reprise,ml,0.4500,heure,haie_reduction,13.5h / 30ml,01-03;11-12,1
+taille_arbustes,m2,0.1800,heure,arbustes_standard,5.4h / 30m² de massif,03-10,3-6
+taille_arbustes_dense,m2,0.2800,heure,arbustes_complexe,8.4h / 30m²,02-04;09-11,2-3
+elagage_petit,arbre,1.5000,heure,arbre_<5m,1.5h par arbre,10-03,1
+elagage_moyen,arbre,3.5000,heure,arbre_5_8m,3.5h par arbre,11-03,1
+desherbage_manuel,m2,0.0350,heure,massif_moyen,1.75h / 50m²,03-10,4-8
+desherbage_mecanique,m2,0.0180,heure,massif_moyen,0.9h / 50m²,03-10,4-6
+soufflage_nettoyage,m2,0.0060,heure,fin_chantier,0.3h / 50m² (allées + pelouse),09-12;03-05,6-12
+ramassage_feuilles,m2,0.0090,heure,automne,0.45h / 50m²,10-12,4-8
+scarification,m2,0.0120,heure,standard,12h / 1000m²,03-04;09-10,1-2
+aeration,m2,0.0100,heure,standard,10h / 1000m²,03-04;09-10,1-2
+arrosage_manuel,m2,0.0025,heure,ponctuel,2.5h / 1000m²,05-09,8-15
+traitement,m2,0.0020,heure,standard,2h / 1000m² (phytosanitaire),04-09,3-6
+dechet_haie_normal,ml,0.0500,heure,dechets_standard,1.5h / 30ml,02-04;09-11,2-3
+dechet_haie_lourd,ml,0.0800,heure,dechets_volume,2.4h / 30ml,02-04;09-12,1-2
+dechet_tonte,m2,0.0008,heure,ramassage,0.8h / 1000m²,03-11,12-20
+temps_installation,chantier,0.2500,heure,systematique,Préparation matériel + briefing,01-12,999
+temps_deplacement,chantier,0.5000,heure,systematique,Trajet (zones 41-44-45-85-37-17),01-12,999
+temps_decharge,chantier,0.4000,heure,systematique,Déchargement + nettoyage véhicule,01-12,999
+temps_fin_chantier,chantier,0.3000,heure,systematique,Nettoyage final + contrôle,01-12,999
