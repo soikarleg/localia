@@ -79,6 +79,30 @@ Vérifier l'installation du NVIDIA Container Toolkit :
 docker run --rm --gpus all nvidia/cuda:12.0-base nvidia-smi
 ```
 
+Si `apt install nvidia-container-toolkit` renvoie `Impossible de trouver le paquet`, il faut d'abord ajouter le dépôt NVIDIA sur la machine hôte. Sur Linux Mint 22.1 / Ubuntu 24.04, la procédure minimale en fish est :
+
+```fish
+set -l distribution (begin; . /etc/os-release; switch $UBUNTU_CODENAME; case noble; echo ubuntu24.04; case jammy; echo ubuntu22.04; case '*'; echo ubuntu24.04; end; end)
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+curl -fsSL https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list |
+  sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' |
+  sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list >/dev/null
+sudo apt update
+sudo apt install -y nvidia-container-toolkit
+sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
+sudo nvidia-ctk runtime configure --runtime=docker
+sudo systemctl restart docker
+```
+
+Si `sudo apt update` échoue encore avec un dépôt Docker en `xia`, le problème vient du dépôt tiers Docker enregistré pour la mauvaise base Ubuntu. Il faut corriger ou désactiver l'entrée `download.docker.com/linux/ubuntu xia` dans `/etc/apt/sources.list.d/` avant de relancer `apt update`.
+
+Puis relancer :
+
+```bash
+cd /home/otto/localia/docker
+docker compose up -d
+```
+
 ---
 
 ## Gestion des modèles Ollama

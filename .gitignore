@@ -4,6 +4,7 @@ docker/.env
 # Sauvegardes binaires volumineuses
 openwebui/backup/*.db
 openwebui/backup/*.sqlite
+openwebui/backup/*.tar.gz
 
 # OS
 .DS_Store
