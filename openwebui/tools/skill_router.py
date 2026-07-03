@@ -8,6 +8,7 @@ required_open_webui_version: 0.6.32
 from __future__ import annotations
 
 import json
+import unicodedata
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -27,6 +28,7 @@ PIPELINE_NEXT_SKILLS: List[str] = [
 TASK_TO_SKILL: Dict[str, str] = {
     "tonte_pelouse": "tonte_pelouse_extraction",
     "taille_haie": "taille_haie_extraction",
+    "taille_haie_rabattage": "taille_haie_rabattage_extraction",
     "debroussaillage_prairie": "debroussaillage_prairie_extraction",
     "desherbage": "desherbage_extraction",
     "taille_arbustes": "taille_arbustes_extraction",
@@ -34,12 +36,33 @@ TASK_TO_SKILL: Dict[str, str] = {
 }
 
 
+TASK_HINT_ALIASES: Dict[str, str] = {
+    "tonte": "tonte_pelouse",
+    "pelouse": "tonte_pelouse",
+    "gazon": "tonte_pelouse",
+    "mulch": "tonte_pelouse",
+    "mulching": "tonte_pelouse",
+    "haie": "taille_haie",
+    "rabattage": "taille_haie_rabattage",
+    "debroussaillage": "debroussaillage_prairie",
+    "prairie": "debroussaillage_prairie",
+    "friche": "debroussaillage_prairie",
+    "desherbage": "desherbage",
+    "adventices": "desherbage",
+    "arbuste": "taille_arbustes",
+    "arbustes": "taille_arbustes",
+    "rosier": "taille_rosiers",
+    "rosiers": "taille_rosiers",
+}
+
+
 KEYWORDS: Dict[str, List[str]] = {
-    "tonte_pelouse": ["tonte", "pelouse", "gazon"],
+    "tonte_pelouse": ["tonte", "tondre", "pelouse", "gazon", "mulch", "mulching"],
     "taille_haie": ["haie", "tailler la haie", "taille haie"],
-    "debroussaillage_prairie": ["debroussaillage", "prairie", "friche"],
-    "desherbage": ["desherbage", "desherber", "mauvaises herbes"],
-    "taille_arbustes": ["arbuste", "arbustes", "taille arbuste"],
+    "taille_haie_rabattage": ["rabattage", "rabattre"],
+    "debroussaillage_prairie": ["debroussaillage", "prairie", "friche", "ronces", "broussailles"],
+    "desherbage": ["desherbage", "desherber", "mauvaises herbes", "adventices"],
+    "taille_arbustes": ["arbuste", "arbustes", "taille arbuste", "buisson", "buissons"],
     "taille_rosiers": ["rosier", "rosiers", "taille rosier"],
 }
 
@@ -108,8 +131,16 @@ class Tools:
                     "texte_demande": "Bonjour, je souhaite une tonte de pelouse sur 350 m2, terrain plat avec quelques obstacles et finition des bordures.",
                 },
                 {
+                    "type_tache": "tonte_pelouse",
+                    "texte_demande": "Pouvez-vous faire une coupe en mulching sur mon gazon de 250 m2 ?",
+                },
+                {
                     "type_tache": "taille_haie",
                     "texte_demande": "Pouvez-vous tailler une haie de 42 ml, 2 m de haut, 2 faces, avec evacuation des dechets verts ?",
+                },
+                {
+                    "type_tache": "taille_haie",
+                    "texte_demande": "Je cherche un rabattage de haie de laurier avec evacuation des coupes.",
                 },
                 {
                     "type_tache": "debroussaillage_prairie",
@@ -130,6 +161,35 @@ class Tools:
             ],
         }
 
+    def analyze_keywords(self, texte_demande: str) -> Dict[str, Any]:
+        """
+        Analyse les mots cles detectes dans le texte et propose une orientation de skill.
+        """
+        normalized_text = self._normalize_text(texte_demande)
+        matches: List[Dict[str, Any]] = []
+
+        for task, words in KEYWORDS.items():
+            matched_words = [word for word in words if self._contains_keyword(normalized_text, word)]
+            if matched_words:
+                matches.append(
+                    {
+                        "type_tache": task,
+                        "matched_keywords": matched_words,
+                        "score": len(matched_words),
+                        "selected_skill_id": TASK_TO_SKILL[task],
+                    }
+                )
+
+        matches.sort(key=lambda item: (-item["score"], item["type_tache"]))
+        best_match = matches[0] if matches else None
+
+        return {
+            "status": "ok",
+            "texte_normalise": normalized_text,
+            "matches": matches,
+            "best_match": best_match,
+        }
+
     def route_skill(self, texte_demande: str, type_tache_hint: str = "") -> Dict[str, Any]:
         """
         Selectionne le skill d'extraction adapte puis retourne le chainage recommande.
@@ -138,7 +198,12 @@ class Tools:
         - texte_demande: texte libre utilisateur
         - type_tache_hint: hint explicite (optionnel), ex: taille_haie
         """
-        detected_task, reason = self._detect_task(texte_demande=texte_demande, type_tache_hint=type_tache_hint)
+        keyword_analysis = self.analyze_keywords(texte_demande)
+        detected_task, reason = self._detect_task(
+            texte_demande=texte_demande,
+            type_tache_hint=type_tache_hint,
+            keyword_analysis=keyword_analysis,
+        )
 
         if not detected_task:
             return {
@@ -147,6 +212,7 @@ class Tools:
                 "questions_bloquantes": [
                     "Precisez la prestation: tonte pelouse, taille haie, debroussaillage prairie, desherbage, taille arbustes, taille rosiers."
                 ],
+                "keyword_analysis": keyword_analysis,
                 "next_pipeline_skills": PIPELINE_NEXT_SKILLS,
             }
 
@@ -185,6 +251,7 @@ class Tools:
             "selected_skill_id": skill_data.get("id"),
             "selected_skill_file": self._find_file_by_skill_id(skill_data.get("id")),
             "selected_skill": skill_data,
+            "keyword_analysis": keyword_analysis,
             "pipeline_status": pipeline_status,
             "next_pipeline_skills": PIPELINE_NEXT_SKILLS,
         }
@@ -210,6 +277,7 @@ class Tools:
             "selected_skill_id": routed.get("selected_skill_id"),
             "selected_skill_file": routed.get("selected_skill_file"),
             "routing_reason": routed.get("routing_reason"),
+            "keyword_analysis": routed.get("keyword_analysis"),
             "texte_demande": texte_demande,
             "extraction_schema": output_schema,
             "pipeline_status": routed.get("pipeline_status"),
@@ -273,15 +341,34 @@ class Tools:
             "missing_skills": missing,
         }
 
-    def _detect_task(self, texte_demande: str, type_tache_hint: str = "") -> tuple[str | None, str]:
-        hint = (type_tache_hint or "").strip().lower()
+    def _detect_task(
+        self,
+        texte_demande: str,
+        type_tache_hint: str = "",
+        keyword_analysis: Dict[str, Any] | None = None,
+    ) -> tuple[str | None, str]:
+        hint = self._normalize_text(type_tache_hint)
         if hint in TASK_TO_SKILL:
             return hint, "hint"
+        if hint in TASK_HINT_ALIASES:
+            return TASK_HINT_ALIASES[hint], f"hint_alias:{hint}"
 
-        text = (texte_demande or "").lower()
-        for task, words in KEYWORDS.items():
-            for word in words:
-                if word in text:
-                    return task, f"keyword:{word}"
+        analysis = keyword_analysis or self.analyze_keywords(texte_demande)
+        best_match = analysis.get("best_match")
+        if isinstance(best_match, dict):
+            matched_keywords = best_match.get("matched_keywords") or []
+            first_keyword = matched_keywords[0] if matched_keywords else "unknown"
+            return best_match.get("type_tache"), f"keyword:{first_keyword}"
 
         return None, "none"
+
+    def _normalize_text(self, text: str) -> str:
+        if not text:
+            return ""
+
+        normalized = unicodedata.normalize("NFKD", text)
+        normalized = "".join(char for char in normalized if not unicodedata.combining(char))
+        return normalized.lower().strip()
+
+    def _contains_keyword(self, normalized_text: str, keyword: str) -> bool:
+        return self._normalize_text(keyword) in normalized_text
