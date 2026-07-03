@@ -11,6 +11,23 @@ SYSTEM_PROMPT_FILE = REPO_ROOT / "openwebui" / "prompts" / "system" / "evalia_sy
 MODEL_ID = "evalia"
 BASE_MODEL_ID = "qwen2.5:7b-instruct-q4_K_M"
 MODEL_NAME = "Evalia"
+TOOL_IDS = ["skill_router", "tool_devis"]
+SKILL_IDS = [
+    "taille_haie_rabattage_extraction",
+    "tonte_pelouse_extraction",
+    "taille_rosiers_extraction",
+    "taille_haie_extraction",
+    "taille_arbustes_extraction",
+    "sortie_json_finale",
+    "normalisation_unites",
+    "moteur_rendement",
+    "extraction_structured",
+    "estimation_complexite",
+    "detection_ambiguite",
+    "desherbage_extraction",
+    "debroussaillage_prairie_extraction",
+    "controle_coherence",
+]
 
 
 def load_env(path: Path) -> None:
@@ -80,12 +97,38 @@ def main() -> int:
         },
         "meta": {
             "description": "Modele metier Localia: devis B2C, base v6, skills orchestration.",
+            "capabilities": {
+                "file_context": True,
+                "vision": True,
+                "file_upload": True,
+                "web_search": False,
+                "image_generation": False,
+                "code_interpreter": False,
+                "terminal": True,
+                "citations": True,
+                "status_updates": True,
+                "builtin_tools": True,
+            },
             "tags": [
                 {"name": "localia"},
                 {"name": "evalia"},
                 {"name": "v1"}
-            ]
+            ],
+            "suggestion_prompts": [
+                {
+                    "content": "Desherbage de 45 m2 d'aire gravillonnee. Herbe dense. Evacuation des dechets verts.",
+                    "title": ["Demande Desherbage", "Test Router"],
+                }
+            ],
+            "builtinTools": {
+                "calendar": False,
+                "web_search": False,
+                "image_generation": False,
+                "code_interpreter": False,
+            },
         },
+        "toolIds": TOOL_IDS,
+        "skillIds": SKILL_IDS,
         "access_grants": [],
         "is_active": True
     }
