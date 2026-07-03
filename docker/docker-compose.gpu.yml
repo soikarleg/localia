@@ -1,0 +1,9 @@
+services:
+  ollama:
+    gpus: all
+
+  cuda-check:
+    image: nvidia/cuda:${CUDA_IMAGE_TAG:-12.0.1-base-ubuntu22.04}
+    command: ["nvidia-smi"]
+    networks:
+      - ai_net

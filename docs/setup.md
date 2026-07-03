@@ -59,25 +59,24 @@ localia/
 
 ## Activation GPU NVIDIA
 
-Dans `docker/docker-compose.override.yml`, décommenter le bloc `deploy` du service `ollama` :
+Le mode GPU est séparé dans `docker/docker-compose.gpu.yml` afin de ne pas bloquer un démarrage CPU sur une machine sans GPU NVIDIA.
 
-```yaml
-services:
-  ollama:
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
-```
+Les données persistantes d'OpenWebUI sont montées par défaut depuis `~/openwebui-data`. Les modèles Ollama viennent de `~/.ollama`, qui contient les blobs et manifests réels.
 
 Vérifier l'installation du NVIDIA Container Toolkit :
 
 ```bash
 docker run --rm --gpus all nvidia/cuda:12.0-base nvidia-smi
 ```
+
+Pour un contrôle local via Compose, charger le fichier GPU puis lancer le service `cuda-check` :
+
+```bash
+cd /home/otto/localia/docker
+docker compose -f docker-compose.yml -f docker-compose.gpu.yml run --rm cuda-check
+```
+
+Le tag Compose par défaut est `nvidia/cuda:12.0.1-base-ubuntu22.04`, qui est disponible publiquement. Le GPU s'active via `docker-compose.gpu.yml`.
 
 Si `apt install nvidia-container-toolkit` renvoie `Impossible de trouver le paquet`, il faut d'abord ajouter le dépôt NVIDIA sur la machine hôte. Sur Linux Mint 22.1 / Ubuntu 24.04, la procédure minimale en fish est :
 
