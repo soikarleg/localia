@@ -53,6 +53,8 @@ localia/
 │   ├── upgrade.sh                  # Mise à jour contrôlée
 │   ├── setup_nvidia_docker.sh      # Setup NVIDIA toolkit/runtime/CDI
 │   ├── import_legacy_uploads.sh    # Import des uploads historiques
+│   ├── import_knowledge_batch_api.sh # Import batch des fichiers via API OpenWebUI
+│   ├── sync_openwebui_watch.sh      # Auto-sync tools/skills en continu
 │   └── check_stack.sh              # Vérification OpenWebUI/Ollama/GPU
 └── docs/
     └── setup.md                    # Ce fichier
@@ -127,6 +129,37 @@ cd /home/otto/localia
 ```
 
 Les fichiers importés sont copiés dans `openwebui/knowledge/legacy_uploads/`.
+
+Import batch dans OpenWebUI (création d'une base de connaissance + upload + indexation) :
+
+```bash
+cd /home/otto/localia
+./scripts/import_knowledge_batch_api.sh
+```
+
+Options :
+
+```bash
+# import depuis un dossier spécifique, avec un nom de base personnalisé
+./scripts/import_knowledge_batch_api.sh /home/otto/localia/openwebui/knowledge "Mon import CSV"
+```
+
+Auto-sync en continu (watch) entre le repo et OpenWebUI :
+
+```bash
+cd /home/otto/localia
+./scripts/sync_openwebui_watch.sh
+```
+
+Options utiles :
+
+```bash
+# mode polling 1 seconde
+./scripts/sync_openwebui_watch.sh --interval 1
+
+# ne pas lancer de sync initiale
+./scripts/sync_openwebui_watch.sh --no-initial-sync
+```
 
 ---
 

@@ -9,13 +9,13 @@ services:
     networks:
       - ai_net
     # Décommentez les lignes suivantes pour activer le GPU NVIDIA
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - driver: nvidia
-    #           count: all
-    #           capabilities: [gpu]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
 
   openwebui:
     image: ghcr.io/open-webui/open-webui:v${OPENWEBUI_IMAGE_TAG:-0.10.0}

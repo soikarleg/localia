@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Localia Extraction Chantier v1",
+    "command": "/localia-extraction-chantier-v1",
+    "tags": ["localia", "extraction", "v1", "v1-operational"],
+    "content_file": "content/localia_extraction_chantier_v1.txt",
+    "meta": {
+      "description": "Extraction structuree des donnees chantier depuis un texte libre."
+    }
+  },
+  {
+    "name": "Localia Questions Bloquantes v1",
+    "command": "/localia-questions-bloquantes-v1",
+    "tags": ["localia", "clarification", "v1", "v1-operational"],
+    "content_file": "content/localia_questions_bloquantes_v1.txt",
+    "meta": {
+      "description": "Liste priorisee des questions bloquantes avant chiffrage."
+    }
+  },
+  {
+    "name": "Localia Estimation Regie v1",
+    "command": "/localia-estimation-regie-v1",
+    "tags": ["localia", "estimation", "v1", "v1-operational"],
+    "content_file": "content/localia_estimation_regie_v1.txt",
+    "meta": {
+      "description": "Estimation du temps de travail en heures avec hypotheses."
+    }
+  },
+  {
+    "name": "Localia Controle Coherence Devis v1",
+    "command": "/localia-controle-coherence-devis-v1",
+    "tags": ["localia", "coherence", "devis", "v1", "v1-operational"],
+    "content_file": "content/localia_controle_coherence_devis_v1.txt",
+    "meta": {
+      "description": "Controle metier et financier d'un devis B2C."
+    }
+  },
+  {
+    "name": "Localia Version Client v1",
+    "command": "/localia-version-client-v1",
+    "tags": ["localia", "client", "reformulation", "v1", "v1-operational"],
+    "content_file": "content/localia_version_client_v1.txt",
+    "meta": {
+      "description": "Reformulation claire et non-technique d'un devis pour client final."
+    }
+  }
+]
