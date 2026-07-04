@@ -28,7 +28,7 @@
     "routing_reason": "string",
     "keyword_analysis": {},
     "questions_bloquantes": ["string"],
-    "next_pipeline_skills": ["string"],
+    "next_pipeline_skills": "normalisation_unites",
     "extraction_schema": {},
     "instructions": ["string"]
   },

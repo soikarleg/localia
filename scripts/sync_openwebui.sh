@@ -67,10 +67,11 @@ fi
 
 docker inspect openwebui --format '{{range .Mounts}}{{println .Source "->" .Destination}}{{end}}' | grep '/openwebui/live/tools -> /app/backend/data/tools\|/openwebui/live/skills -> /app/backend/data/skills' || true
 
-echo "Tools in container:"
-docker exec openwebui sh -lc 'ls -1 /app/backend/data/tools | head -n 20'
+# echo "Tools in container:"
+# docker exec openwebui sh -lc 'ls -1 /app/backend/data/tools | head -n 20'
 
-echo "Skills in container:"
+echo "Skills dans le container:"
 docker exec openwebui sh -lc 'ls -1 /app/backend/data/skills | head -n 30'
 
 echo "Done."
+
