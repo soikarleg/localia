@@ -1,0 +1,61 @@
+{
+  "id": "skill_router",
+  "name": "Skill Router",
+  "author": "localia",
+  "version": "1.0.0",
+  "description": "Route une demande de prestation espaces verts vers le skill d'extraction adapté et prépare le pipeline.",
+  "tags": ["routing", "extraction", "orchestration"],
+  "required_open_webui_version": "0.6.32",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "texte_demande": {
+        "type": "string",
+        "description": "Description libre de la prestation demandée par le client"
+      },
+      "type_tache_hint": {
+        "type": "string",
+        "description": "Hint optionnel pour forcer un type de tâche (ex: tonte_pelouse, desherbage)",
+        "default": ""
+      }
+    },
+    "required": ["texte_demande"]
+  },
+  "output_json": {
+    "status": "string",
+    "type_tache_detecte": "string",
+    "selected_skill_id": "string",
+    "routing_reason": "string",
+    "keyword_analysis": {},
+    "questions_bloquantes": ["string"],
+    "next_pipeline_skills": ["string"],
+    "extraction_schema": {},
+    "instructions": ["string"]
+  },
+  "objectif": "Détecter le type de prestation et sélectionner le skill d'extraction approprié tout en préparant le pipeline d'orchestration.",
+  "regles": [
+    "Toujours commencer par analyser les mots-clés et les aliases.",
+    "Ne jamais inventer un skill qui n'existe pas.",
+    "Répondre en Français uniquement.",
+    "Si aucune tâche n'est détectée, retourner des questions bloquantes claires.",
+    "Retourner toujours le pipeline suivant : normalisation_unites → estimation_complexite → etc."
+  ],
+  "exemples": [
+    {
+      "texte_demande": "Desherbage de 45 m2 d'aire gravillonnee. Herbe dense. Evacuation des dechets verts.",
+      "resultat_attendu": {
+        "status": "ok",
+        "type_tache_detecte": "desherbage",
+        "selected_skill_id": "desherbage_extraction"
+      }
+    },
+    {
+      "texte_demande": "Tonte de 780 m2 de pelouse. Pas de ramassage.",
+      "resultat_attendu": {
+        "status": "ok",
+        "type_tache_detecte": "tonte_pelouse",
+        "selected_skill_id": "tonte_pelouse_extraction"
+      }
+    }
+  ]
+}
